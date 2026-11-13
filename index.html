@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <title>Kaströrelse – fysikillustration</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="physics.js" defer></script>
+    <script src="content.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="eyebrow" data-copy="eyebrow"></p>
+        <h1 data-copy="title"></h1>
+        <p class="intro" data-copy="intro"></p>
+      </header>
+
+      <section class="workspace" aria-label="Interaktiv kaströrelse">
+        <section class="panel controls" aria-labelledby="controls-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-copy="controlsEyebrow"></p>
+              <h2 id="controls-title" data-copy="controlsTitle"></h2>
+            </div>
+          </div>
+
+          <div class="slider-control">
+            <div class="slider-heading">
+              <label for="speed"><span data-copy="speedLabel"></span> <var>v</var><sub>0</sub></label>
+              <output id="speed-value" for="speed"></output>
+            </div>
+            <input id="speed" name="speed" type="range">
+            <div class="range-ends"><span data-copy="speedMin"></span><span data-copy="speedMax"></span></div>
+          </div>
+
+          <div class="slider-control">
+            <div class="slider-heading">
+              <label for="angle"><span data-copy="angleLabel"></span> <var>θ</var></label>
+              <output id="angle-value" for="angle"></output>
+            </div>
+            <input id="angle" name="angle" type="range">
+            <div class="range-ends"><span data-copy="angleMin"></span><span data-copy="angleMax"></span></div>
+          </div>
+
+          <p class="gravity-note">
+            <var>g</var> = <output id="gravity-value"></output>
+            <span class="unit">m/s<sup>2</sup></span>
+            <span data-copy="gravityNote"></span>
+          </p>
+
+          <div class="results" aria-live="polite">
+            <h3 data-copy="resultsTitle"></h3>
+            <div class="result-grid">
+              <div class="result">
+                <span data-copy="flightLabel"></span>
+                <output><var>T</var> = <span id="flight-time"></span> <span class="unit">s</span></output>
+              </div>
+              <div class="result">
+                <span data-copy="rangeLabel"></span>
+                <output><var>R</var> = <span id="range"></span> <span class="unit">m</span></output>
+              </div>
+              <div class="result">
+                <span data-copy="heightLabel"></span>
+                <output><var>h</var><sub>max</sub> = <span id="height"></span> <span class="unit">m</span></output>
+              </div>
+            </div>
+          </div>
+
+          <div class="live-values" aria-live="off">
+            <h3 data-copy="liveValuesTitle"></h3>
+            <div class="live-value-grid">
+              <div class="live-value">
+                <span data-copy="currentTimeLabel"></span>
+                <output><var>t</var> = <span id="current-time">0</span> <span class="unit">s</span></output>
+              </div>
+              <div class="live-value">
+                <span data-copy="positionLabel"></span>
+                <output class="coordinates">
+                  <var>x</var> = <span id="position-x">0</span> <span class="unit">m</span><br>
+                  <var>y</var> = <span id="position-y">0</span> <span class="unit">m</span>
+                </output>
+              </div>
+              <div class="live-value">
+                <span data-copy="velocityLabel"></span>
+                <output class="velocity-components">
+                  <var>v</var><sub>x</sub> = <span id="velocity-x">0</span> <span class="unit">m/s</span><br>
+                  <var>v</var><sub>y</sub> = <span id="velocity-y">0</span> <span class="unit">m/s</span>
+                </output>
+              </div>
+            </div>
+          </div>
+
+          <div class="animation-controls">
+            <button id="start" class="play-button" type="button">
+              <span class="play-icon" aria-hidden="true">▶</span>
+              <span data-copy="startButton"></span>
+            </button>
+            <button id="pause" class="secondary-button" type="button" disabled>
+              <span data-copy="pauseButton"></span>
+            </button>
+            <button id="reset" class="secondary-button" type="button">
+              <span data-copy="resetButton"></span>
+            </button>
+          </div>
+          <p class="small-note" data-copy="sameHeightNote"></p>
+        </section>
+
+        <section class="panel visualization" aria-labelledby="chart-title">
+          <div class="section-heading chart-heading">
+            <div>
+              <p class="eyebrow" data-copy="chartEyebrow"></p>
+              <h2 id="chart-title" data-copy="chartTitle"></h2>
+            </div>
+            <span class="legend"><span class="legend-dot"></span><span data-copy="legend"></span></span>
+          </div>
+          <div class="chart-wrap">
+            <svg id="trajectory" viewBox="0 0 760 390" role="img" aria-labelledby="chart-title chart-description">
+              <desc id="chart-description"></desc>
+            </svg>
+          </div>
+        </section>
+      </section>
+
+      <section class="learning panel" aria-labelledby="learning-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-copy="learningEyebrow"></p>
+            <h2 id="learning-title" data-copy="learningTitle"></h2>
+          </div>
+        </div>
+        <div class="learning-grid">
+          <p data-copy="learningText"></p>
+          <div class="equations" aria-label="Formler">
+            <p><strong data-copy="equationsLabel"></strong></p>
+            <p><code data-copy-html="xPositionFormula"></code></p>
+            <p><code data-copy-html="yPositionFormula"></code></p>
+            <p><code data-copy-html="xVelocityFormula"></code></p>
+            <p><code data-copy-html="yVelocityFormula"></code></p>
+              <p><code data-copy-html="flightFormula"></code></p>
+              <p><code data-copy-html="rangeFormula"></code></p>
+              <p><code data-copy-html="heightFormula"></code></p>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span data-copy="footer"></span>
+      </footer>
+    </main>
+  </body>
+</html>
