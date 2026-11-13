@@ -70,7 +70,7 @@ h1 {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.55fr);
+  grid-template-columns: minmax(480px, 1fr) minmax(0, 1.25fr);
   gap: 18px;
   align-items: stretch;
 }
@@ -497,6 +497,12 @@ footer {
   }
 
   .live-value-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .workspace {
     grid-template-columns: 1fr;
   }
 }
