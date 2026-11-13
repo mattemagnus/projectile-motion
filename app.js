@@ -8,7 +8,7 @@
   const svgNamespace = "http://www.w3.org/2000/svg";
   const chart = { width: 760, height: 390, left: 62, right: 24, top: 24, bottom: 52 };
   const chartPlotHeight = chart.height - chart.top - chart.bottom;
-  const velocityVectorScale = 0.16;
+  const velocityVectorScale = 0.24;
   let animationFrame = 0;
   let activeBall;
   let velocityVector;
@@ -30,11 +30,13 @@
 
   const inputs = {
     speed: document.querySelector("#speed"),
-    angle: document.querySelector("#angle")
+    angle: document.querySelector("#angle"),
+    startHeight: document.querySelector("#start-height")
   };
   const values = {
     speed: document.querySelector("#speed-value"),
-    angle: document.querySelector("#angle-value")
+    angle: document.querySelector("#angle-value"),
+    startHeight: document.querySelector("#start-height-value")
   };
   const currentTime = document.querySelector("#current-time");
   const positionX = document.querySelector("#position-x");
@@ -117,7 +119,8 @@
   function getValues() {
     return {
       speed: Number(inputs.speed.value),
-      angle: Number(inputs.angle.value)
+      angle: Number(inputs.angle.value),
+      startHeight: Number(inputs.startHeight.value)
     };
   }
 
@@ -144,7 +147,9 @@
     const description = makeSvgElement("desc", { id: "chart-description" });
     description.textContent =
       `Kaströrelse med starthastigheten ${format(parameters.speed)} meter per sekund ` +
-      `och vinkeln ${format(parameters.angle)} grader. Räckvidden är ${format(result.range)} meter. ` +
+      `och vinkeln ${format(parameters.angle)} grader. Starthöjden är ` +
+      `${format(parameters.startHeight)} meter och bollen landar på marknivån. ` +
+      `Räckvidden är ${format(result.range)} meter. ` +
       "Axelpilarna visar positiva riktningar: x åt höger och y uppåt. " +
       "Den orange pilen visar hastighetsvektorn. Turkos och lila pilar visar dess horisontella " +
       "respektive vertikala komponent.";
@@ -211,7 +216,9 @@
     const path = [];
     for (let index = 0; index <= samples; index += 1) {
       const time = result.flightTime * index / samples;
-      const position = physics.positionAt(time, parameters.speed, parameters.angle);
+      const position = physics.positionAt(
+        time, parameters.speed, parameters.angle, parameters.startHeight
+      );
       path.push(`${index === 0 ? "M" : "L"} ${x(position.x)} ${y(Math.max(0, position.y))}`);
     }
 
@@ -220,7 +227,7 @@
       class: "trajectory-line"
     });
     const start = makeSvgElement("circle", {
-      cx: x(0), cy: y(0), r: 5, class: "endpoint"
+      cx: x(0), cy: y(parameters.startHeight), r: 5, class: "endpoint"
     });
     const landing = makeSvgElement("circle", {
       cx: x(result.range), cy: y(0), r: 5, class: "endpoint"
@@ -238,7 +245,7 @@
       "marker-end": "url(#velocity-arrow)"
     });
     activeBall = makeSvgElement("circle", {
-      cx: x(0), cy: y(0), r: 8, class: "moving-ball"
+      cx: x(0), cy: y(parameters.startHeight), r: 8, class: "moving-ball"
     });
 
     svg.append(
@@ -254,16 +261,20 @@
     isAnimating = false;
     elapsedMilliseconds = 0;
     const parameters = getValues();
-    const result = physics.calculate(parameters.speed, parameters.angle);
+    const result = physics.calculate(
+      parameters.speed, parameters.angle, parameters.startHeight
+    );
 
     values.speed.textContent = `${format(parameters.speed)} m/s`;
     values.angle.textContent = `${format(parameters.angle)}°`;
+    values.startHeight.textContent = `${format(parameters.startHeight)} m`;
     gravityOutput.textContent = format(physics.gravity);
     flightTimeOutput.textContent = format(result.flightTime);
     rangeOutput.textContent = format(result.range);
     heightOutput.textContent = format(result.maxHeight);
     inputs.speed.setAttribute("aria-valuetext", values.speed.textContent);
     inputs.angle.setAttribute("aria-valuetext", values.angle.textContent);
+    inputs.startHeight.setAttribute("aria-valuetext", values.startHeight.textContent);
 
     const map = renderChart(parameters, result);
     activeSimulation = { parameters, result, map };
@@ -273,7 +284,9 @@
 
   function updatePosition(time) {
     const { parameters, map } = activeSimulation;
-    const position = physics.positionAt(time, parameters.speed, parameters.angle);
+    const position = physics.positionAt(
+      time, parameters.speed, parameters.angle, parameters.startHeight
+    );
     const height = Math.max(0, position.y);
     const originX = map.x(position.x);
     const originY = map.y(height);

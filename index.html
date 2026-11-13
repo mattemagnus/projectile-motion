@@ -45,6 +45,15 @@
             <div class="range-ends"><span data-copy="angleMin"></span><span data-copy="angleMax"></span></div>
           </div>
 
+          <div class="slider-control">
+            <div class="slider-heading">
+              <label for="start-height"><span data-copy="startHeightLabel"></span> <var>h</var><sub>0</sub></label>
+              <output id="start-height-value" for="start-height"></output>
+            </div>
+            <input id="start-height" name="startHeight" type="range">
+            <div class="range-ends"><span data-copy="startHeightMin"></span><span data-copy="startHeightMax"></span></div>
+          </div>
+
           <p class="gravity-note">
             <var>g</var> = <output id="gravity-value"></output>
             <span class="unit">m/s<sup>2</sup></span>
@@ -105,7 +114,7 @@
               <span data-copy="resetButton"></span>
             </button>
           </div>
-          <p class="small-note" data-copy="sameHeightNote"></p>
+          <p class="small-note" data-copy="landingNote"></p>
         </section>
 
         <section class="panel visualization" aria-labelledby="chart-title">

@@ -4,7 +4,7 @@ Webbsidan fungerar direkt i en vanlig webbläsare. Den använder bara vanliga HT
 
 ## Öppna sidan
 
-Öppna `index.html` i en webbläsare. Ändra reglagen för starthastighet och kastvinkel. Starta, pausa eller återställ sedan animeringen. Under rörelsen visas tiden, bollens position och hastighetskomponenterna; flygtid, räckvidd och maxhöjd beräknas för det valda kastet.
+Öppna `index.html` i en webbläsare. Ändra reglagen för starthastighet, kastvinkel och starthöjd (0–20 m). Starta, pausa eller återställ sedan animeringen. Under rörelsen visas tiden, bollens position och hastighetskomponenterna; flygtid, räckvidd och maxhöjd beräknas för det valda kastet.
 
 ## Ändra undervisningstext eller fysik
 
@@ -13,7 +13,7 @@ Webbsidan fungerar direkt i en vanlig webbläsare. Den använder bara vanliga HT
 - **`styles.css`** styr sidans utseende.
 - **`app.js`** kopplar reglagen till beräkningarna och ritar banan. Den behöver vanligtvis inte ändras när du justerar texter eller värden.
 
-Modellen antar att luftmotstånd saknas, att tyngdaccelerationen är konstant och att bollen startar och landar på samma höjd.
+Modellen antar att luftmotstånd saknas och att tyngdaccelerationen är konstant. Starthöjden mäts från marknivån, och bollen landar när den når marken (y = 0).
 
 ## Publicera på GitHub Pages
 
